@@ -2,6 +2,7 @@
 import { ThemeToggleButton } from "@/components/common/ThemeToggleButton";
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import UserDropdown from "@/components/header/UserDropdown";
+import { YearSelector } from "@/components/YearSelector";
 import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -122,7 +123,8 @@ const AppHeader: React.FC = () => {
 
           <div className="hidden lg:block">
             <form>
-              <div className="relative">
+             <div className="flex justify-between">
+               <div className="relative">
                 <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
                   <svg
                     className="fill-gray-500 dark:fill-gray-400"
@@ -152,6 +154,10 @@ const AppHeader: React.FC = () => {
                   <span> K </span>
                 </button>
               </div>
+              <div>
+                <YearSelector />
+              </div>
+             </div>
             </form>
           </div>
         </div>
