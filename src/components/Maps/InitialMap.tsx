@@ -1,0 +1,48 @@
+import { useEffect, useRef } from 'react'
+import mapboxgl from 'mapbox-gl';
+import { useQuery } from '@tanstack/react-query';
+import { useFetchMaps } from '@/api/Maps/fetchMaps';
+
+interface Props {
+  coordenadaX : number;
+  coordenadaY : number;
+}
+export const InitialMap = () => {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const {accidentsByDate} = useFetchMaps()
+  const {data, isLoading} = useQuery({
+    queryKey: ['accidentsByDate', new Date('2024-11-04'), new Date('2024-11-14'), 'h'],
+    queryFn: () => accidentsByDate(new Date('2024-11-04'), new Date('2024-11-14'), 'h')
+  })
+
+  useEffect(() => {
+    mapboxgl.accessToken = process.env.NEXT_PUBLIC_TOKEN_MAPBOX;
+
+    if (mapContainer.current) {
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/dark-v11",
+        center: [-76.614, 2.441],
+        zoom: 12,
+        maxZoom: 15,
+      });
+
+      // Add zoom controls
+      map.addControl(new mapboxgl.FullscreenControl(), "top-left");
+      map.addControl(new mapboxgl.NavigationControl(), "top-left");
+
+      data.map((item: Props) => {
+        new mapboxgl.Marker()
+          .setLngLat([item.coordenadaY, item.coordenadaX])
+          .addTo(map);
+      })
+
+      // Clean up on unmount
+      return () => map.remove();
+    } 
+  }, [data]);
+
+  if(isLoading) return <p>Loading Map...</p>
+
+   return <div id="map" ref={mapContainer} style={{ height: '100%' }}></div>;
+}
