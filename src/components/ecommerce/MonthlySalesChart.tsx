@@ -1,23 +1,43 @@
 "use client";
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
-import { MoreDotIcon } from "@/icons";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { useState } from "react";
-import { Dropdown } from "../ui/dropdown/Dropdown";
-
+import { useQuery } from "@tanstack/react-query";
+import { useFetchTotals } from "@/api/dashboard/fetchTotals";
+import { useYear } from "@/context/YearContext";
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
+interface Props {
+  TOTAL: number;
+  MONTH: number;
+}
+
 export default function MonthlySalesChart() {
+  const { fetchTotalMonths, fetchMonthSeverities } = useFetchTotals();
+  const { year } = useYear();
+  const {data, isLoading} = useQuery({
+    queryKey: ["total-months", year],
+    queryFn: () =>fetchTotalMonths(year)
+  })
+
+  const { data: dataS, isLoading: loadingS } = useQuery({
+    queryKey: ["month-severities", "h", year],
+    queryFn: () => fetchMonthSeverities("h", year)
+  });
+
+    const { data: dataSM, isLoading: loadingSM } = useQuery({
+    queryKey: ["month-severities", "m", year],
+    queryFn: () => fetchMonthSeverities("m", year)
+  });
+
   const options: ApexOptions = {
-    colors: ["#465fff"],
+    colors: ["#5A96E3", "#FFA33C", "#F46060"],
     chart: {
       fontFamily: "Outfit, sans-serif",
-      type: "bar",
-      height: 180,
+      type: "area",
+      height: 220,
       toolbar: {
         show: false,
       },
@@ -32,27 +52,14 @@ export default function MonthlySalesChart() {
     },
     dataLabels: {
       enabled: false,
-    },
+    },  
     stroke: {
       show: true,
-      width: 4,
-      colors: ["transparent"],
+      curve: "straight",
+      width: 3,
     },
     xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      categories: data?.map((item: Props) => item.MONTH),
       axisBorder: {
         show: false,
       },
@@ -66,11 +73,7 @@ export default function MonthlySalesChart() {
       horizontalAlign: "left",
       fontFamily: "Outfit",
     },
-    yaxis: {
-      title: {
-        text: undefined,
-      },
-    },
+
     grid: {
       yaxis: {
         lines: {
@@ -93,59 +96,41 @@ export default function MonthlySalesChart() {
   };
   const series = [
     {
-      name: "Sales",
-      data: [168, 385, 201, 298, 187, 195, 291, 110, 215, 390, 280, 112],
+      name: "Total",
+      type: "bar",
+      data: data?.map((item: Props) => item.TOTAL),
     },
+
+    {
+      name: "Heridos",
+      type: "line",
+      data: dataS?.map((item: Props) => item.TOTAL),
+    },
+
+    {
+      name: "Muertos",
+      type: "line",
+      data: dataSM?.map((item: Props) => item.TOTAL),
+    }
   ];
-  const [isOpen, setIsOpen] = useState(false);
 
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
-  }
-
-  function closeDropdown() {
-    setIsOpen(false);
-  }
+  if(isLoading || loadingS || loadingSM) return <div className="flex items-center justify-center h-64"><p className="text-gray-500">Loading...</p></div>;
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-          Monthly Sales
+          Siniestros por meses ({year})
         </h3>
-
-        <div className="relative inline-block">
-          <button onClick={toggleDropdown} className="dropdown-toggle">
-            <MoreDotIcon className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" />
-          </button>
-          <Dropdown
-            isOpen={isOpen}
-            onClose={closeDropdown}
-            className="w-40 p-2"
-          >
-            <DropdownItem
-              onItemClick={closeDropdown}
-              className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
-            >
-              View More
-            </DropdownItem>
-            <DropdownItem
-              onItemClick={closeDropdown}
-              className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
-            >
-              Delete
-            </DropdownItem>
-          </Dropdown>
-        </div>
       </div>
 
-      <div className="max-w-full overflow-x-auto custom-scrollbar">
+      <div className="max-w-full h-62 overflow-x-auto custom-scrollbar">
         <div className="-ml-5 min-w-[650px] xl:min-w-full pl-2">
           <ReactApexChart
             options={options}
             series={series}
-            type="bar"
-            height={180}
+            type="line"
+            height={220}
           />
         </div>
       </div>
