@@ -15,6 +15,8 @@ interface PropsData {
   GRAVEDAD: string
 }
 
+const colors=  ["#5A96E3", "#FFA33C", "#F46060"];
+
 export default function MonthlyTarget() {
   const {fetchPercentageSeverities} = useFetchTotals()
   const { year } = useYear()
@@ -24,12 +26,12 @@ export default function MonthlyTarget() {
   })
 
   const options: ApexOptions = {
+    colors,
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "donut",
       height: 330
     },
-    colors: ["#5A96E3", "#FFA33C", "#F46060"],
     labels: ["Heridos", "Muertos"],
     dataLabels: {
       enabled: true,
@@ -42,7 +44,7 @@ export default function MonthlyTarget() {
         }
       },
       legend: {
-        position: 'bottom'
+        show: false
       },
       plotOptions: {
         pie: {
@@ -81,14 +83,31 @@ export default function MonthlyTarget() {
             </p>
           </div>
         </div>
-        <div className="relative ">
-          <div className="max-h-[330px]">
+        <div className="relative flex flex-col sm:flex-row items-center gap-6">
+          <div className="w-70">
             <ReactApexChart
               options={options}
               series={series}
               type="donut"
               height={330}
             />
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {data.map((item : PropsData) => {
+              return (
+                <div key={item.GRAVEDAD} className="flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: "#A5B4FC"}}
+                  ></span>
+                  <span className="text-gray-500 text-theme-sm dark:text-gray-400">{item.GRAVEDAD === 'h' ? 'Heridos' : 'Muertos'}</span>
+                  <span className="ml-auto text-gray-400">
+                    - {item.TOTAL} casos
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
