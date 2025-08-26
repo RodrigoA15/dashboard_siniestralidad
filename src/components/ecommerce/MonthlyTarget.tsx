@@ -99,7 +99,7 @@ export default function MonthlyTarget() {
                 <div key={item.GRAVEDAD} className="flex items-center gap-2">
                   <span
                     className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: "#A5B4FC"}}
+                    style={{ backgroundColor: ["#5A96E3", "#FFA33C", "#F46060", "#9DBC98", "#5A96E3", "#FFA33C", "#F46060", "#9DBC98"][data.indexOf(item)] }}
                   ></span>
                   <span className="text-gray-500 text-theme-sm dark:text-gray-400">{item.GRAVEDAD === 'h' ? 'Heridos' : 'Muertos'}</span>
                   <span className="ml-auto text-gray-400">
