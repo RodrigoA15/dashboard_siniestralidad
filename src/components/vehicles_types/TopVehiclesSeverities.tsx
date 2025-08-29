@@ -1,25 +1,27 @@
 'use client'
 
-import { useQuery } from "@tanstack/react-query"
-import { useFetchTypeServices } from "@/api/dashboard/fetchTypeService"
-import { Table, TableBody, TableCell, TableHeader, TableRow } from "../ui/table"
 import { useState } from "react"
 import Pagination from "../tables/Pagination"
-
+import { Table, TableBody, TableCell, TableHeader, TableRow } from "../ui/table"
+import { useQuery } from "@tanstack/react-query"
+import { useFetchVehicleTypes } from "@/api/dashboard/fetchVehicleTypes"
+import { useYear } from "@/context/YearContext"
 
 interface PropsData {
-  RAZON_SOCIAL: string,
+  DESC_CLASE_QX: string,
   TOTAL_HERIDOS: number,
   TOTAL_MUERTOS: number,
   TOTAL: number
 }
-export const TopCompanies = () => {
-  const {topCompanies} = useFetchTypeServices()
+
+export const TopVehiclesSeverities = () => {
+  const {allVehiclesBySeverities} = useFetchVehicleTypes()
+  const {year} = useYear()
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
   const {data, isLoading} = useQuery({
-    queryKey: ['top-companies'],
-    queryFn: topCompanies,
+    queryKey: ['top-type-vehicles', year],
+    queryFn: () => allVehiclesBySeverities(year),
     initialData: []
     })
 
@@ -38,7 +40,7 @@ export const TopCompanies = () => {
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
       <div className="flex items-start justify-between">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-          Empresas de transporte p&uacute;blico con m&aacute;s siniestros
+          Gravedad por tipo vehiculos a&ntilde;o ({year})
         </h3>
       </div>
 
@@ -52,7 +54,7 @@ export const TopCompanies = () => {
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Razón Social
+                  Clase
                 </TableCell>
                 <TableCell
                   isHeader
@@ -81,7 +83,7 @@ export const TopCompanies = () => {
                 paginatedData.map((item : PropsData, index: number) => (
                   <TableRow key={index}>
                     <TableCell className="px-4 py-3 text-gray-700 text-start text-theme-sm dark:text-gray-400">
-                      {item.RAZON_SOCIAL || "SIN RAZÓN SOCIAL"}
+                      {item.DESC_CLASE_QX || "SIN CLASE"}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-700 text-start text-theme-sm dark:text-gray-400">
                       {item.TOTAL_HERIDOS || 0}
