@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
+  MapIcon,
   PageIcon,
   PieChartIcon,
   PlugInIcon,
@@ -36,9 +36,9 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
+    icon: <MapIcon />,
+    name: "Mapas",
+    path: "/mapas",
   },
   {
     icon: <UserCircleIcon />,
