@@ -60,13 +60,13 @@ export const TopVehiclesSeverities = () => {
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Heridos
+                  Fallecidos
                 </TableCell>
                 <TableCell
                   isHeader
                   className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
-                  Fallecidos
+                  Heridos
                 </TableCell>
                 <TableCell
                   isHeader
@@ -86,10 +86,10 @@ export const TopVehiclesSeverities = () => {
                       {item.DESC_CLASE_QX || "SIN CLASE"}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-700 text-start text-theme-sm dark:text-gray-400">
-                      {item.TOTAL_HERIDOS || 0}
+                      {item.TOTAL_MUERTOS || 0}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-700 text-start text-theme-sm dark:text-gray-400">
-                      {item.TOTAL_MUERTOS || 0}
+                      {item.TOTAL_HERIDOS || 0}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-700 text-start text-theme-sm dark:text-gray-400">
                       {item.TOTAL ?? 0}

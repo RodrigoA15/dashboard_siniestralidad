@@ -9,7 +9,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-const colors=  ["#5A96E3", "#FFA33C", "#F46060", "#9DBC98"];
+const colors = ["#5A96E3", "#FFA33C", "#F46060", "#9DBC98"];
 
 interface PropsData {
   TIPO: string,
@@ -19,61 +19,61 @@ interface PropsData {
 }
 
 export const TotalVehiclesSeverities = () => {
-const {year} = useYear()
-    const {totalVehiclesTypesSeverities} = useFetchVehicleTypes()
-    const {data, isLoading} = useQuery({
-        queryKey: ['total-accidentes-vehicles', year],
-        queryFn: () => totalVehiclesTypesSeverities(year),
-    })
+  const { year } = useYear()
+  const { totalVehiclesTypesSeverities } = useFetchVehicleTypes()
+  const { data, isLoading } = useQuery({
+    queryKey: ['total-accidentes-vehicles', year],
+    queryFn: () => totalVehiclesTypesSeverities(year),
+  })
 
-      const options: ApexOptions = {
-        colors,
-        chart: {
-          fontFamily: "Outfit, sans-serif",
-          type: "donut",
-          height: 330
-        },
-        labels: data?.map((item: PropsData) => item.TIPO || 'SIN TIPO'),
-        dataLabels: {
-          enabled: true,
-          style: {
-              fontSize: '16px',
-              colors: ['#000']
-            },
-            dropShadow: {
-              enabled: false
-            }
-          },
-          legend: {
-            show: false
-          },
-          plotOptions: {
-            pie: {
-              donut: {
-                labels: {
-                  show: true,
-                  total: {
-                    show: true,
-                    label: 'Total',
-                    fontSize: '22px',
-                    fontWeight: '#000000',
-                    color: '#465fff',
-                  }
-                }
-              }
+  const options: ApexOptions = {
+    colors,
+    chart: {
+      fontFamily: "Outfit, sans-serif",
+      type: "donut",
+      height: 330
+    },
+    labels: data?.map((item: PropsData) => item.TIPO || 'SIN TIPO'),
+    dataLabels: {
+      enabled: true,
+      style: {
+        fontSize: '16px',
+        colors: ['#000']
+      },
+      dropShadow: {
+        enabled: false
+      }
+    },
+    legend: {
+      show: false
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            show: true,
+            total: {
+              show: true,
+              label: 'Total',
+              fontSize: '22px',
+              fontWeight: '#000000',
+              color: '#465fff',
             }
           }
-      };
-
-  const series = data?.map((item : PropsData) => item.TOTAL_MUERTOS)
-
-    if(isLoading) {
-        return (
-            <div className="flex items-center justify-center h-64">
-                <p className="text-gray-500">Loading...</p>
-            </div>
-        )
+        }
+      }
     }
+  };
+
+  const series = data?.map((item: PropsData) => item.TOTAL)
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] sm:p-6">
@@ -81,10 +81,10 @@ const {year} = useYear()
         <div className="flex justify-between">
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-              TIPO VEHICULO - a&ntilde;o {year}
+              Tipo vehiculo - a&ntilde;o {year}
             </h3>
             <p className="mt-1 font-normal text-gray-500 text-theme-sm dark:text-gray-400">
-              Total siniestros 
+              Total siniestros
             </p>
           </div>
         </div>
@@ -97,22 +97,28 @@ const {year} = useYear()
               height={330}
             />
           </div>
-
-          <div className="flex flex-col gap-4">
-            {data.map((item : PropsData) => {
-              return (
-                <div key={item.TIPO} className="flex items-center gap-2">
-                    <span 
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: ["#5A96E3", "#FFA33C", "#F46060", "#9DBC98", "#5A96E3", "#FFA33C", "#F46060", "#9DBC98"][data.indexOf(item)] }}
-                  ></span>
-                  <span className="text-gray-500 text-theme-sm dark:text-gray-400">{item.TIPO || 'SIN DESCRIPCION'}:</span>
-                  <span className="ml-auto text-gray-400">
-                    {item.TOTAL} casos
-                  </span>
+          <div className="flex flex-col items-start gap-6 sm:flex-row xl:flex-col">
+            {data?.map((item: PropsData) => (
+              <div key={item.TIPO} className="flex items-start gap-2.5">
+                <div className="mt-1.5 h-2 w-2 rounded-full" style={{ backgroundColor: ["#5A96E3", "#FFA33C", "#F46060", "#9DBC98", "#5A96E3", "#FFA33C", "#F46060", "#9DBC98"][data.indexOf(item)] }}>
                 </div>
-              );
-            })}
+                <div>
+                  <h5 className="mb-1 font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                    {item.TIPO} - {item.TOTAL}
+                  </h5>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
+                    <p className="font-medium text-gray-700 text-theme-sm dark:text-gray-400">
+                      {item.TOTAL_MUERTOS} Fallecidos
+                    </p>
+                    <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+                    <p className="text-gray-500 text-theme-sm dark:text-gray-400">
+                      {item.TOTAL_HERIDOS} Heridos
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
