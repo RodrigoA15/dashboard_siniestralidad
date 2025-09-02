@@ -2,11 +2,11 @@ import { instance } from "@/lib/api";
 
 export const useFetchMaps = () => {
 
-    const accidentsByDate = async(start_date: Date, end_date: Date, severity : string) => {
+    const accidentsByDate = async(start_date: string, end_date: string, severity : string) => {
         const {data} = await instance.get("/accidents", {
             params: {
-                start_date: start_date.toISOString(),
-                end_date: end_date.toISOString(),
+                start_date: start_date,
+                end_date: end_date,
                 severity: severity
             }
         });
