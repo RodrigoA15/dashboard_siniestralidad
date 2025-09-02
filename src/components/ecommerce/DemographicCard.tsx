@@ -1,6 +1,6 @@
 "use client";
 
-import { InitialMap } from "../Maps/InitialMap";
+import { InitialMap } from "../InitialMaps/InitialMap";
 
 export default function DemographicCard() {
 
