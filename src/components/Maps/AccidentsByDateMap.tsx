@@ -3,6 +3,7 @@
 import React from 'react'
 import { InitialMap } from '../InitialMaps/InitialMap'
 import { PredictionMap } from './PredictionMap'
+import { GeoJsonMap } from './GeoJsonMap'
 
 export const AccidentsByDateMap = () => {
     return (
@@ -35,6 +36,20 @@ export const AccidentsByDateMap = () => {
                                 className="maps_map-embed mapboxgl-map h-[320px] w-full rounded-xl overflow-hidden"
                             >
                                 <PredictionMap />
+                            </div>
+                        </div>
+
+                        <div className='rounded-2xl bg-white/20 dark:bg-white/5 backdrop-blur-md shadow-xl p-6'>
+                            <div className="mb-4 flex items-center justify-between">
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    GeoJson
+                                </h3>
+                            </div>
+                            <div
+                                id="embed-map"
+                                className="maps_map-embed mapboxgl-map h-[320px] w-full rounded-xl overflow-hidden"
+                            >
+                                <GeoJsonMap />
                             </div>
                         </div>
                     </div>
