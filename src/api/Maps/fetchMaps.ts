@@ -13,7 +13,16 @@ export const useFetchMaps = () => {
         return data;
     }
 
+    const accidentsByCommunity = async(year: string) => {
+        const {data} = await instance.get("/accidents/communities", {
+            params: {
+                year: year
+            }
+        });
+        return data;
+    }
+
     return {
-        accidentsByDate
+        accidentsByDate, accidentsByCommunity
     }
 }
