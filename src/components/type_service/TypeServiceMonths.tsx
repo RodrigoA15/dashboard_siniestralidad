@@ -59,7 +59,7 @@ export const TypeServiceMonths = () => {
   }));
 
   const options: ApexOptions = {
-    colors: ["#5A96E3", "#FFA33C", "#F46060", "#9DBC98"],
+    colors: ["#34699A", '#5A96E3', "#67C090", "#BF9200"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "bar",
@@ -78,7 +78,7 @@ export const TypeServiceMonths = () => {
     },
     dataLabels: {
       enabled: false,
-    },  
+    },
     stroke: {
       show: true,
       curve: "straight",
@@ -123,7 +123,7 @@ export const TypeServiceMonths = () => {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-5 pt-5 shadow-sm dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
-    <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
           Siniestros por meses tipo servicio a&ntilde;o ({year})
         </h3>
@@ -131,14 +131,14 @@ export const TypeServiceMonths = () => {
 
       <div className="max-w-full overflow-x-auto custom-scrollbar">
         <div className="-ml-5 min-w-[1300px] xl:min-w-full pl-2">
-         <div style={{minHeight: "365px"}}>
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="bar"
-            height={320}
-          />
-        </div>
+          <div style={{ minHeight: "365px" }}>
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="bar"
+              height={320}
+            />
+          </div>
         </div>
       </div>
     </div>
