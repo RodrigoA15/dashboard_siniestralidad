@@ -5,10 +5,10 @@ import mapboxgl from 'mapbox-gl';
 import { useQuery } from '@tanstack/react-query';
 import { useFetchMaps } from '@/api/Maps/fetchMaps';
 
-// interface Props {
-//     coordenadaX: number;
-//     coordenadaY: number;
-// }
+interface Props {
+    coordenadaX: number;
+    coordenadaY: number;
+}
 
 export const PredictionMap = () => {
     const [startDate, setStartDate] = useState('')
@@ -43,6 +43,11 @@ export const PredictionMap = () => {
             const handleFullscreenChange = () => {
                 setIsFullScreen(!!document.fullscreenElement);
             };
+            data?.map((item: Props) => {
+                new mapboxgl.Marker()
+                    .setLngLat([item.coordenadaY, item.coordenadaX])
+                    .addTo(map);
+            })
 
             document.addEventListener("fullscreenchange", handleFullscreenChange);
 
