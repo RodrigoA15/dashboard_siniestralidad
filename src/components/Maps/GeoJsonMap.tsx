@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl';
 import type { FeatureCollection } from 'geojson';
 import { useQuery } from '@tanstack/react-query';
@@ -20,7 +20,7 @@ interface PropsData {
 export const GeoJsonMap = () => {
     const mapContainer = useRef<HTMLDivElement>(null);
     const { accidentsByCommunity } = useFetchMaps()
-    const [isFullScreen, setIsFullScreen] = useState(false);
+    // const [isFullScreen, setIsFullScreen] = useState(false);
 
     const { year } = useYear()
     const { data } = useQuery({
@@ -46,11 +46,11 @@ export const GeoJsonMap = () => {
             map.addControl(new mapboxgl.FullscreenControl(), "top-left");
             map.addControl(new mapboxgl.NavigationControl(), "top-left");
 
-            const handleFullscreenChange = () => {
-                setIsFullScreen(!!document.fullscreenElement);
-            };
+            // const handleFullscreenChange = () => {
+            //     setIsFullScreen(!!document.fullscreenElement);
+            // };
 
-            document.addEventListener("fullscreenchange", handleFullscreenChange);
+            // document.addEventListener("fullscreenchange", handleFullscreenChange);
 
             map.on('style.load', () => {
                 map.setFog({});
@@ -128,7 +128,7 @@ export const GeoJsonMap = () => {
             });
 
             return () => {
-                document.removeEventListener("fullscreenchange", handleFullscreenChange);
+                // document.removeEventListener("fullscreenchange", handleFullscreenChange);
                 map.remove()
             };
         }
