@@ -48,21 +48,11 @@ export const PredictionMap = () => {
 
             return () => {
                 document.removeEventListener("fullscreenchange", handleFullscreenChange);
+                map.remove();
             };
 
-            // data.map((item: Props) => {
-            //     new mapboxgl.Marker()
-            //         .setLngLat([item.coordenadaY, item.coordenadaX])
-            //         .addTo(map);
-            // })
-
-            // Clean up on unmount
-            return () => map.remove();
         }
     }, [data])
-
-    console.log(isFullScreen)
-
 
     return (
         <div>
@@ -109,7 +99,6 @@ export const PredictionMap = () => {
                             <button onClick={() => refetch()} className="bg-blue-500 text-white text-center rounded px-4 py-2 hover:bg-blue-600 w-full">Buscar</button>
                             {/* <button onClick={handleSearchSeverity} className="bg-green-500 text-white text-center rounded px-4 py-2 hover:bg-green-600 w-full">Analizar punto critico</button> */}
                             {/* <button onClick={handleSearchCriticalAreas} className="bg-yellow-500 text-white text-center rounded px-4 py-2 hover:bg-yellow-600 w-full">Analizar puntos criticos</button> */}
-
                         </div>
                     </div>
                 )}
