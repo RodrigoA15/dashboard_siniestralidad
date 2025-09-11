@@ -10,4 +10,4 @@ export default function Maps() {
       </div>
     </div>
   )
-}
+} 
