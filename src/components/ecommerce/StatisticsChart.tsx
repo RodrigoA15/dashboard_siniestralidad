@@ -17,32 +17,32 @@ interface PropByYears {
 }
 
 export default function StatisticsChart() {
-  const {fetchTotalByYears, fetchAllYears} = useFetchTotals();
+  const { fetchTotalByYears, fetchAllYears } = useFetchTotals();
 
-// Primera consulta
-const { data: dataH, isLoading: loadingH } = useQuery({
-  queryKey: ["totalByYears", "h"],
-  queryFn: () => fetchTotalByYears("h")
-});
+  // Primera consulta
+  const { data: dataH, isLoading: loadingH } = useQuery({
+    queryKey: ["totalByYears", "h"],
+    queryFn: () => fetchTotalByYears("h")
+  });
 
-// Segunda consulta
-const { data: dataM, isLoading: loadingM } = useQuery({
-  queryKey: ["totalByYears", "m"],
-  queryFn: () => fetchTotalByYears("m")
-});
+  // Segunda consulta
+  const { data: dataM, isLoading: loadingM } = useQuery({
+    queryKey: ["totalByYears", "m"],
+    queryFn: () => fetchTotalByYears("m")
+  });
 
-const { data: dataAll, isLoading: loadingAll } = useQuery({
-  queryKey: ["total-all-years"],
-  queryFn: fetchAllYears
-});
+  const { data: dataAll, isLoading: loadingAll } = useQuery({
+    queryKey: ["total-all-years"],
+    queryFn: fetchAllYears
+  });
 
-if (loadingH || loadingM || loadingAll) {
-  return (
-    <div className="flex items-center justify-center h-64">
-      <p className="text-gray-500">Loading...</p>
-    </div>
-  );
-}
+  if (loadingH || loadingM || loadingAll) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   const categories = dataH?.[0]?.total_accidents.map((item: PropByYears) => item.YEAR) || [];
 
@@ -75,6 +75,10 @@ if (loadingH || loadingM || loadingAll) {
       },
     },
 
+    dataLabels: {
+      enabled: false, // Disable data labels
+    },
+
     fill: {
       opacity: 1,
     },
@@ -86,21 +90,8 @@ if (loadingH || loadingM || loadingAll) {
         size: 6, // Marker size on hover
       },
     },
-    grid: {
-      xaxis: {
-        lines: {
-          show: false, // Hide grid lines on x-axis
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true, // Show grid lines on y-axis
-        },
-      },
-    },
-    dataLabels: {
-      enabled: false, // Disable data labels
-    },
+
+
     tooltip: {
       enabled: true, // Enable tooltip
       x: {
@@ -122,22 +113,22 @@ if (loadingH || loadingM || loadingAll) {
     },
   };
 
- const series = [
-  {
-    name: "Total",
-    data: dataAll.map((item: PropByYears) => item.TOTAL) || [],
-    type: "bar"
-  },
-  {
-    name: "Heridos",
-    data: dataH?.[0]?.total_accidents.map((item: PropByYears) => item.TOTAL) || []
-  },
-  {
-    name: "Muertos",
-    data: dataM?.[0]?.total_accidents.map((item: PropByYears) => item.TOTAL) || []
-  },
-  
-];
+  const series = [
+    {
+      name: "Total",
+      data: dataAll.map((item: PropByYears) => item.TOTAL) || [],
+      type: "bar"
+    },
+    {
+      name: "Heridos",
+      data: dataH?.[0]?.total_accidents.map((item: PropByYears) => item.TOTAL) || []
+    },
+    {
+      name: "Muertos",
+      data: dataM?.[0]?.total_accidents.map((item: PropByYears) => item.TOTAL) || []
+    },
+
+  ];
   return (
     <div className="rounded-2xl border border-gray-200 bg-white px-5 pb-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
       <div className="flex flex-col gap-5 mb-6 sm:flex-row sm:justify-between">
@@ -145,9 +136,6 @@ if (loadingH || loadingM || loadingAll) {
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
             Siniestros por a&ntilde;o
           </h3>
-          <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Target you’ve set for each month
-          </p>
         </div>
         <div className="flex items-start w-full gap-3 sm:justify-end">
           <ChartTab />
