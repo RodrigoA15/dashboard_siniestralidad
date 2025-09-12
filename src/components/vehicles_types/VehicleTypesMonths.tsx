@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import { useYear } from "@/context/YearContext";
 import { useFetchVehicleTypes } from "@/api/dashboard/fetchVehicleTypes";
+import { meses } from "@/data/meses";
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -78,14 +79,14 @@ export const VehicleTypesMonths = () => {
     },
     dataLabels: {
       enabled: false,
-    },  
+    },
     stroke: {
       show: true,
       curve: "straight",
       width: 3,
     },
     xaxis: {
-      categories: uniqueMonths.map((m) => `Mes ${m}`),
+      categories: uniqueMonths.map((m) => meses[m - 1]),
       axisBorder: {
         show: false,
       },
@@ -123,7 +124,7 @@ export const VehicleTypesMonths = () => {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-5 pt-5 shadow-sm dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
-    <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
           Siniestros por meses tipo vehiculos a&ntilde;o ({year})
         </h3>
@@ -131,14 +132,14 @@ export const VehicleTypesMonths = () => {
 
       <div className="max-w-full overflow-x-auto custom-scrollbar">
         <div className="-ml-5 min-w-[1300px] xl:min-w-full pl-2">
-         <div style={{minHeight: "365px"}}>
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="bar"
-            height={320}
-          />
-        </div>
+          <div style={{ minHeight: "365px" }}>
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="bar"
+              height={320}
+            />
+          </div>
         </div>
       </div>
     </div>

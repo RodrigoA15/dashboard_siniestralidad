@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import { useFetchTypeServices } from "@/api/dashboard/fetchTypeService";
 import { useYear } from "@/context/YearContext";
+import { meses } from "@/data/meses";
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -85,7 +86,7 @@ export const TypeServiceMonths = () => {
       width: 3,
     },
     xaxis: {
-      categories: uniqueMonths.map((m) => `Mes ${m}`),
+      categories: uniqueMonths.map((m) => meses[m - 1]),
       axisBorder: {
         show: false,
       },
