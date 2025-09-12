@@ -8,6 +8,7 @@ import { useFetchMaps } from '@/api/Maps/fetchMaps';
 interface Props {
     coordenadaX: number;
     coordenadaY: number;
+    nro_croquis: string;
 }
 
 export const PredictionMap = () => {
@@ -46,6 +47,7 @@ export const PredictionMap = () => {
             data?.map((item: Props) => {
                 new mapboxgl.Marker()
                     .setLngLat([item.coordenadaY, item.coordenadaX])
+                    .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(item.nro_croquis))
                     .addTo(map);
             })
 
