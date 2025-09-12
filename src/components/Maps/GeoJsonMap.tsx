@@ -88,7 +88,7 @@ export const GeoJsonMap = () => {
                     source: 'popayan',
                     paint: {
                         'fill-color': '#627BC1',
-                        'fill-opacity': 0.3
+                        'fill-opacity': 0.05
                     }
                 });
 
@@ -98,7 +98,7 @@ export const GeoJsonMap = () => {
                     type: 'line',
                     source: 'popayan',
                     paint: {
-                        'line-color': '#37353E',
+                        'line-color': '#5A96E3',
                         'line-width': 3
                     }
                 });
