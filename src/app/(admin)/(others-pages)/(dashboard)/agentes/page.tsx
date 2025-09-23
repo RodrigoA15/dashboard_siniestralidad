@@ -1,5 +1,6 @@
 import { AgentsMetrics } from "@/components/agents/AgentsMetrics";
 import { TableTopAgents } from "@/components/agents/TableTopAgents";
+import { TopActivities } from "@/components/agents/TopActivities";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 
 export default function Agentes() {
@@ -13,6 +14,10 @@ export default function Agentes() {
 
                 <div className="col-span-12 xl:col-span-6">
                     <TableTopAgents />
+                </div>
+
+                <div className="col-span-12 xl:col-span-6">
+                    <TopActivities />
                 </div>
             </div>
         </div>

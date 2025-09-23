@@ -36,10 +36,21 @@ export const useAgentsFetch = () => {
         return data
     }
 
+    const fetchAlcoholLevels = async (year: string, severity: string) => {
+        const {data} = await instance.get('/agents/alcohol-levels', {
+            params: {
+                year: year,
+                severity: severity
+            }
+        })
+        return data
+    }
+
     return {
         fetchAgentsActives,
         fetchTopAgents,
         fetchAgentsTop,
-        fetchAgentsTopSeverity
+        fetchAgentsTopSeverity,
+        fetchAlcoholLevels
     }
 }
