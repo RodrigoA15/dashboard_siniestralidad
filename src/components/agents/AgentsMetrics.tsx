@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { useAgentsFetch } from "@/api/dashboard/fetchAgents"
+const STALE_TIME = 1000 * 60 * 5 // 5 minutos
 
 interface PropsActives {
     TOTAL: number
@@ -11,6 +12,7 @@ export const AgentsMetrics = () => {
     const { data, isError } = useQuery({
         queryKey: ['agents-actives'],
         queryFn: fetchAgentsActives,
+        staleTime: STALE_TIME,
         placeholderData: [{ TOTAL: 0 }]
     })
 
